@@ -1,13 +1,13 @@
 
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Float, Text3D, Environment } from '@react-three/drei';
+import { OrbitControls, Float, Environment } from '@react-three/drei';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Brain, BarChart3 } from 'lucide-react';
 
 interface HeroSectionProps {
-  onGetStarted: () => void;
+  onExplore: () => void;
 }
 
 const FloatingData = () => {
@@ -46,7 +46,7 @@ const Scene3D = () => {
   );
 };
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* 3D Background */}
@@ -89,8 +89,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Transform raw data into insightful visuals with AI-powered analysis. 
-            Where ChatGPT meets Tableau—making data accessible, interactive, and enjoyable for everyone.
+            Explore interactive data visualizations with stunning 3D effects and hover cards. 
+            Discover global trends through immersive data storytelling.
           </motion.p>
           
           <motion.div 
@@ -100,12 +100,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Button
-              onClick={onGetStarted}
+              onClick={onExplore}
               size="lg"
               className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
             >
               <Zap className="w-5 h-5 mr-2" />
-              Start Exploring
+              Explore Data Trends
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             
@@ -116,7 +116,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
               </div>
               <div className="flex items-center space-x-2">
                 <BarChart3 className="w-5 h-5 text-purple-400" />
-                <span>Smart Charts</span>
+                <span>3D Interactive</span>
               </div>
             </div>
           </motion.div>
