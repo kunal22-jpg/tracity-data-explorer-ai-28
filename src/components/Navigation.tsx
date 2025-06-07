@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Database, TrendingUp, Images, Home } from 'lucide-react';
+import { Database, TrendingUp, Bot, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface NavigationProps {
@@ -13,7 +13,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection, onSection
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'trends', label: 'Data Trends', icon: TrendingUp },
-    { id: 'gallery', label: 'Gallery', icon: Images },
+    { id: 'chatbot', label: 'AI Chatbot', icon: Bot },
   ];
 
   return (

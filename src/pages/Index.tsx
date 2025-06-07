@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { HeroSection } from '@/components/HeroSection';
 import { TrendsBentoGrid } from '@/components/TrendsBentoGrid';
 import { Navigation } from '@/components/Navigation';
+import { AIChatbot } from '@/components/AIChatbot';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -11,8 +12,8 @@ const Index = () => {
     switch (activeSection) {
       case 'trends':
         return <TrendsBentoGrid />;
-      case 'gallery':
-        return <TrendsBentoGrid />;
+      case 'chatbot':
+        return <AIChatbot />;
       default:
         return <HeroSection onExplore={() => setActiveSection('trends')} />;
     }

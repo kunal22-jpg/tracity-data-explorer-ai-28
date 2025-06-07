@@ -1,9 +1,9 @@
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, Environment } from '@react-three/drei';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Zap, Brain, BarChart3 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -47,6 +47,19 @@ const Scene3D = () => {
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
+  const [scrollY, setScrollY] = useState(0);
+  const { scrollYProgress } = useScroll();
+  
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const parallaxRotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
+  const parallaxScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* 3D Background */}
@@ -54,8 +67,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
         <Scene3D />
       </div>
       
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/50 to-slate-900/90" />
+      {/* Enhanced Gradient Overlay with animation */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/50 to-slate-900/90"
+        animate={{
+          background: [
+            "linear-gradient(to bottom, transparent, rgba(147, 51, 234, 0.5), rgba(15, 23, 42, 0.9))",
+            "linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.5), rgba(15, 23, 42, 0.9))",
+            "linear-gradient(to bottom, transparent, rgba(147, 51, 234, 0.5), rgba(15, 23, 42, 0.9))"
+          ]
+        }}
+        transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+      />
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -65,11 +88,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
+          {/* Parallax Tracity Title */}
           <motion.h1 
-            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            style={{ 
+              y: parallaxY,
+              rotateX: parallaxRotate,
+              scale: parallaxScale
+            }}
+            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent perspective-1000 transform-gpu"
             initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            animate={{ 
+              scale: [1, 1.05, 1],
+              rotateY: [0, 5, -5, 0]
+            }}
+            transition={{ 
+              duration: 6, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
           >
             Tracity
           </motion.h1>
@@ -89,7 +125,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Explore interactive data visualizations with stunning 3D effects and hover cards. 
+            Explore interactive data visualizations with stunning 3D effects and AI-powered insights. 
             Discover global trends through immersive data storytelling.
           </motion.p>
           
@@ -123,12 +159,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
         </motion.div>
       </div>
       
-      {/* Floating particles */}
+      {/* Enhanced floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {Array.from({ length: 30 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-cyan-400 rounded-full opacity-30"
+            className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full opacity-30"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -136,6 +172,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
             animate={{
               y: [0, -100, 0],
               opacity: [0.3, 0.8, 0.3],
+              scale: [1, 1.5, 1],
             }}
             transition={{
               duration: 3 + Math.random() * 2,
